@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="915fe3ef-88ab-46be-8172-72ac2b1a4694" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1UK0qTZ97gU7WextRFhnTpXauEz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/kotlin" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="ollendev.aoc" />
+      <recent name="" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="ollendev.aoc" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotlin.ollendev.aoc.Day1Kt">
+    <configuration name="Day1Test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;ollendev.aoc.Day1Test&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":cleanTest" />
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="FuelCalculatorTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;ollendev.aoc.FuelCalculatorTest&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":cleanTest" />
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="QuickSortTest.sort" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;QuickSortTest.sort&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":cleanTest" />
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="ollendev.aoc.Day1Kt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
+      <module name="AoC.main" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="ollendev.aoc.Day1Kt" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.ollendev.aoc.Day1Kt" />
+        <item itemvalue="Gradle.FuelCalculatorTest" />
+        <item itemvalue="Gradle.Day1Test" />
+        <item itemvalue="Gradle.QuickSortTest.sort" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="915fe3ef-88ab-46be-8172-72ac2b1a4694" name="Default Changelist" comment="" />
+      <created>1575090169347</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1575090169347</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="634" y="325" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1575214623326">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="634" y="325" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1575214623326" />
+    <state x="662" y="231" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1575214786798">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="662" y="231" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1575214786798" />
+    <state width="1750" height="303" key="GridCell.Tab.0.bottom" timestamp="1575216945238">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="303" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1575216945238" />
+    <state width="1750" height="303" key="GridCell.Tab.0.center" timestamp="1575216945238">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="303" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1575216945238" />
+    <state width="1750" height="303" key="GridCell.Tab.0.left" timestamp="1575216945237">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="303" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1575216945237" />
+    <state width="1750" height="303" key="GridCell.Tab.0.right" timestamp="1575216945238">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="303" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1575216945238" />
+    <state width="1750" height="373" key="GridCell.Tab.1.bottom" timestamp="1575215801807">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="373" key="GridCell.Tab.1.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1575215801807" />
+    <state width="1750" height="373" key="GridCell.Tab.1.center" timestamp="1575215801807">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="373" key="GridCell.Tab.1.center/0.23.1792.1097@0.23.1792.1097" timestamp="1575215801807" />
+    <state width="1750" height="373" key="GridCell.Tab.1.left" timestamp="1575215801806">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="373" key="GridCell.Tab.1.left/0.23.1792.1097@0.23.1792.1097" timestamp="1575215801806" />
+    <state width="1750" height="373" key="GridCell.Tab.1.right" timestamp="1575215801807">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="1750" height="373" key="GridCell.Tab.1.right/0.23.1792.1097@0.23.1792.1097" timestamp="1575215801807" />
+    <state x="397" y="210" key="SettingsEditor" timestamp="1575090271243">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="397" y="210" key="SettingsEditor/0.23.1792.1097@0.23.1792.1097" timestamp="1575090271243" />
+    <state x="679" y="358" key="chooseDestDirectoryDialog" timestamp="1575214858923">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="679" y="358" key="chooseDestDirectoryDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1575214858923" />
+    <state x="573" y="404" key="com.intellij.ide.util.TipDialog" timestamp="1575214603026">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="573" y="404" key="com.intellij.ide.util.TipDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1575214603026" />
+    <state x="675" y="308" key="org.jetbrains.kotlin.idea.testIntegration.KotlinCreateTestDialog" timestamp="1575214858951">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="675" y="308" key="org.jetbrains.kotlin.idea.testIntegration.KotlinCreateTestDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1575214858951" />
+    <state x="561" y="268" width="670" height="676" key="search.everywhere.popup" timestamp="1575090265559">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="561" y="268" width="670" height="676" key="search.everywhere.popup/0.23.1792.1097@0.23.1792.1097" timestamp="1575090265559" />
+  </component>
+</project>

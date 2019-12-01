@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ollendev.aoc.FuelCalculatorTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-12-01T15:59:13" hostname="Chriss-MacBook-Pro.local" time="0.013">
+  <properties/>
+  <testcase name="mass of 14 needs 2" classname="ollendev.aoc.FuelCalculatorTest" time="0.0"/>
+  <testcase name="module mass list of 12, 14, 1969, 100756 equals 34,241" classname="ollendev.aoc.FuelCalculatorTest" time="0.011"/>
+  <testcase name="mass of 1969 needs 654" classname="ollendev.aoc.FuelCalculatorTest" time="0.0"/>
+  <testcase name="mass of 12 needs 2" classname="ollendev.aoc.FuelCalculatorTest" time="0.0"/>
+  <testcase name="mass of 100756 needs 33583" classname="ollendev.aoc.FuelCalculatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
