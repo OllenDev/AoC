@@ -36,9 +36,30 @@ internal class FuelCalculatorTest {
     }
 
     @Test
-    fun `module mass list of 12, 14, 1969, 100756 equals 34,241`() {
+    fun `module mass list of 12, 14, 1969, 100756 equals 51,316`() {
         val fuel = fuelCalculator.moduleMassListFuelRequirement(listOf(12, 14, 1969, 100756))
 
-        assertEquals(34241, fuel)
+        assertEquals(51316, fuel)
+    }
+
+    @Test
+    fun `for 2 fuel with additional fuel mass is 2`() {
+        val totalFuel = fuelCalculator.calculateTotalFuelMass(2)
+
+        assertEquals(2, totalFuel)
+    }
+
+    @Test
+    fun `for 654 fuel total fuel needs is 966`() {
+        val totalFuel = fuelCalculator.calculateTotalFuelMass(654)
+
+        assertEquals(966, totalFuel)
+    }
+
+    @Test
+    fun `for 33583 fuel total fuel needs is 50346`() {
+        val totalFuel = fuelCalculator.calculateTotalFuelMass(33583)
+
+        assertEquals(50346, totalFuel)
     }
 }
