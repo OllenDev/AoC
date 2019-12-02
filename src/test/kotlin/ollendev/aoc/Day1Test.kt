@@ -5,7 +5,7 @@ import org.junit.Test
 
 internal class FuelCalculatorTest {
 
-    val fuelCalculator: FuelCalculator = FuelCalculator()
+    private val fuelCalculator: FuelCalculator = FuelCalculator()
 
     @Test
     fun `mass of 12 needs 2`() {
