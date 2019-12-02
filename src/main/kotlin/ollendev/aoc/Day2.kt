@@ -3,17 +3,37 @@ package ollendev.aoc
 import java.io.File
 
 fun main() {
+    // Day 1 Part 1 "1202 error"
+    //val result = driver(12, 2)
+
+    val target = 19690720
+    var found = false
+
+    for (n in 0..99) {
+        for (v in 0..99) {
+            val result = driver(n, v)
+            if (result == target) {
+                println("Found combination noun = $n verb = $v\n100 * $n + $v = ${100 * n + v}")
+                found = true
+                break
+            }
+        }
+    }
+    println("Found combination = $found")
+}
+
+fun driver(noun: Int, verb: Int): Int {
     val ram = initRam()
 
     // replace position 1 with the value 12
-    ram[1] = 12
+    ram[1] = noun
     // replace position 2 with the value 2
-    ram[2] = 2
+    ram[2] = verb
 
     val computer = Computer(ram)
     computer.run()
 
-    println("Ship Computer Calculation ${ram[0]}")
+    return ram[0]
 }
 
 fun initRam(): MutableList<Int> {
@@ -50,12 +70,10 @@ class Computer(
     }
 
     private fun add(opCode: OpCode) {
-        println("Adding $opCode")
         ram[opCode.saveAddress] = ram[opCode.leftAddress] + ram[opCode.rightAddress]
     }
 
     private fun multiply(opCode: OpCode) {
-        println("Multiplying $opCode")
         ram[opCode.saveAddress] = ram[opCode.leftAddress] * ram[opCode.rightAddress]
     }
 
