@@ -3,7 +3,8 @@ package ollendev.aoc
 fun main() {
 //    fixComputer()
 //    findPossibleCombinations()
-    runTESTDiagnostic()
+//    runTESTDiagnostic()
+    runRadiatorTestDiagnostic()
 }
 
 // Day 5 Part 1 -  Thermal Environment Supervision Terminal (TEST)
@@ -13,6 +14,12 @@ fun runTESTDiagnostic() {
     computer.run()
 }
 
+// Day 5 Part 2 -  Thermal Radiator
+fun runRadiatorTestDiagnostic() {
+    val ram = initRam("TESTDiagnosticProgram.txt")
+    val computer = IntComputer(ram, 5)
+    computer.run()
+}
 
 // Day 1 Part 1 "1202 error"
 fun fixComputer() {
@@ -69,67 +76,103 @@ class IntComputer(
     private val input: Int
 ) {
 
+    private var programPointer = 0
+
     fun run() {
         if (ram.size < 4) return
 
-        var programPointer = 0
         var code = getCode(programPointer)
 
         runloop@ while (code.instruction != Instruction.Halt) {
+            var jumpPointer: Int? = null
             when (code.instruction) {
-                Instruction.Add -> add(programPointer, code)
-                Instruction.Multiply -> multiply(programPointer, code)
-                Instruction.WriteInput -> writeInput(programPointer, code)
-                Instruction.PrintOutput -> printOutput(programPointer, code)
+                Instruction.Add -> add(code)
+                Instruction.Multiply -> multiply(code)
+                Instruction.WriteInput -> writeInput()
+                Instruction.PrintOutput -> printOutput(code)
+                Instruction.JumpIfTrue -> jumpPointer = jumpIfTrue(code)
+                Instruction.JumpIfFalse -> jumpPointer = jumpIfFalse(code)
+                Instruction.LessThan -> lessThan(code)
+                Instruction.Equals -> equals(code)
                 Instruction.Halt -> break@runloop
             }
-            programPointer += code.instruction.size
+            if (jumpPointer != null) {
+                programPointer = jumpPointer
+            } else {
+                programPointer += code.instruction.size
+            }
             code = getCode(programPointer)
         }
     }
 
-    private fun add(pointer: Int, code: Code) {
-        val saveAddress = ram[pointer + 3]
-        val left = if (code.getParamMode(0) == ParamMode.Immediate) {
-            ram[pointer + 1]
-        } else {
-            ram[ram[pointer + 1]]
-        }
-        val right = if (code.getParamMode(1) == ParamMode.Immediate) {
-            ram[pointer + 2]
-        } else {
-            ram[ram[pointer +2]]
-        }
+    private fun add(code: Code) {
+        val left = readParamValue(code, 0)
+        val right = readParamValue(code, 1)
+        val saveAddress = ram[programPointer + 3]
         ram[saveAddress] = left + right
     }
 
-    private fun multiply(pointer: Int, code: Code) {
-        val saveAddress = ram[pointer + 3]
-        val left = if (code.getParamMode(0) == ParamMode.Immediate) {
-            ram[pointer + 1]
-        } else {
-            ram[ram[pointer + 1]]
-        }
-        val right = if (code.getParamMode(1) == ParamMode.Immediate) {
-            ram[pointer + 2]
-        } else {
-            ram[ram[pointer +2]]
-        }
+    private fun multiply(code: Code) {
+        val left = readParamValue(code, 0)
+        val right = readParamValue(code, 1)
+        val saveAddress = ram[programPointer + 3]
         ram[saveAddress] = left * right
     }
 
-    private fun writeInput(pointer: Int, code: Code) {
-        val saveAddress = ram[pointer + 1]
+    private fun writeInput() {
+        val saveAddress = ram[programPointer + 1]
         ram[saveAddress] = input
     }
 
-    private fun printOutput(pointer: Int, code: Code) {
-        val output = if (code.getParamMode(0) == ParamMode.Immediate) {
-            ram[pointer + 1]
-        } else {
-            ram[ram[pointer + 1]]
-        }
+    private fun printOutput(code: Code) {
+        val output = readParamValue(code, 0)
         println("$output")
+    }
+
+    // if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter.
+    // Otherwise, it does nothing.
+    private fun jumpIfTrue(code: Code): Int? {
+        val value = readParamValue(code, 0)
+        if (value != 0) {
+            return readParamValue(code, 1)
+        }
+        return null
+    }
+
+    // if the first parameter is zero, it sets the instruction pointer to the value from the second parameter.
+    // Otherwise, it does nothing
+    private fun jumpIfFalse(code: Code): Int? {
+        val value = readParamValue(code, 0)
+        if (value == 0) {
+            return readParamValue(code, 1)
+        }
+        return null
+    }
+
+    // if the first parameter is less than the second parameter, it stores 1 in the position given by the third
+    // parameter. Otherwise, it stores 0.
+    private fun lessThan(code: Code) {
+        val saveAddress = ram[programPointer + 3]
+        val left = readParamValue(code, 0)
+        val right = readParamValue(code, 1)
+        ram[saveAddress] = if (left < right) { 1 } else { 0 }
+    }
+
+    // if the first parameter is equal to the second parameter, it stores 1 in the position given by the third
+    // parameter. Otherwise, it stores 0.
+    private fun equals(code: Code) {
+        val saveAddress = ram[programPointer + 3]
+        val left = readParamValue(code, 0)
+        val right = readParamValue(code, 1)
+        ram[saveAddress] = if (left == right) { 1 } else { 0 }
+    }
+
+    private fun readParamValue(code: Code, paramIndex: Int): Int {
+        return if (code.getParamMode(paramIndex) == ParamMode.Immediate) {
+            ram[programPointer + paramIndex + 1]
+        } else {
+            ram[ram[programPointer + paramIndex + 1]]
+        }
     }
 
     private fun getCode(index: Int): Code {
@@ -137,20 +180,28 @@ class IntComputer(
     }
 }
 
-enum class Instruction(val size: Int) {
-    Add(4),
-    Multiply(4),
-    WriteInput(2),
-    PrintOutput(2),
-    Halt(1)
+enum class Instruction(val value: Int, val size: Int) {
+    Add(1, 4),
+    Multiply(2, 4),
+    WriteInput(3, 2),
+    PrintOutput(4, 2),
+    JumpIfTrue(5, 3),
+    JumpIfFalse(6, 3),
+    LessThan(7, 4),
+    Equals(8, 4),
+    Halt(99, 1)
 }
 
 fun Int?.toInstruction() = when (this) {
-    1 -> Instruction.Add
-    2 -> Instruction.Multiply
-    3 -> Instruction.WriteInput
-    4 -> Instruction.PrintOutput
-    99 -> Instruction.Halt
+    Instruction.Add.value -> Instruction.Add
+    Instruction.Multiply.value -> Instruction.Multiply
+    Instruction.WriteInput.value -> Instruction.WriteInput
+    Instruction.PrintOutput.value -> Instruction.PrintOutput
+    Instruction.JumpIfTrue.value -> Instruction.JumpIfTrue
+    Instruction.JumpIfFalse.value -> Instruction.JumpIfFalse
+    Instruction.LessThan.value -> Instruction.LessThan
+    Instruction.Equals.value -> Instruction.Equals
+    Instruction.Halt.value -> Instruction.Halt
     else -> throw IllegalStateException("Unknown op code instruction!")
 }
 
