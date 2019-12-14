@@ -1,5 +1,7 @@
 package ollendev.aoc
 
+import java.lang.Exception
+
 fun main() {
     println("Fix Computer\n-------------")
     fixComputer()
@@ -77,7 +79,7 @@ fun initRam(programFile: String): MutableList<Int> {
 
 class IntComputer(
     private val ram: MutableList<Int>,
-    private val input: MutableList<Int>
+    val input: MutableList<Int>
 ) {
 
     private var programPointer = 0
@@ -88,6 +90,7 @@ class IntComputer(
         var instruction = getInstruction(programPointer)
 
         runloop@ while (instruction.opCode != OpCode.Halt) {
+            println("$instruction pp:$programPointer")
             var jumpPointer: Int? = null
             when (instruction.opCode) {
                 OpCode.Add -> add(instruction)
@@ -101,7 +104,12 @@ class IntComputer(
                 OpCode.Halt -> break@runloop
             }
             programPointer = jumpPointer ?: programPointer + instruction.opCode.size
-            instruction = getInstruction(programPointer)
+            try {
+                instruction = getInstruction(programPointer)
+            } catch (e: Exception) {
+                println("Error Parsing Instruction for ram[$programPointer]: ${ram[programPointer]}")
+                break
+            }
         }
     }
 
@@ -126,8 +134,9 @@ class IntComputer(
     }
 
     private fun output(instruction: Instruction) {
-        val output = readParamValue(instruction, 0)
-        println("$output")
+        val value = readParamValue(instruction, 0)
+        input.add(value)
+        println("$value")
     }
 
     // if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter.
@@ -203,7 +212,7 @@ fun Int?.toOpCode() = when (this) {
     7 -> OpCode.LessThan
     8 -> OpCode.Equals
     99 -> OpCode.Halt
-    else -> throw IllegalStateException("Unknown op code instruction!")
+    else -> throw IllegalStateException("Unknown op code instruction: $this!")
 }
 
 enum class ParamMode {
