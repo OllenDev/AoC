@@ -1,27 +1,9 @@
 package ollendev.aoc
 
-import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
 
 class IntComputerTest {
-    private val sysOut = System.out
-    private lateinit var outContent: ByteArrayOutputStream
-
-    @Before
-    fun setup() {
-        outContent = ByteArrayOutputStream()
-        val outStream = PrintStream(outContent)
-        System.setOut(outStream)
-    }
-
-    @After
-    fun tearDown() {
-        System.setOut(sysOut)
-    }
 
     @Test
     fun `Compute sample 1`() {
@@ -96,92 +78,92 @@ class IntComputerTest {
     @Test
     fun `Print output address mode`() {
         val ram = mutableListOf(4,4,99,0,55)
-        runTest(ram)
-        assertEquals("55\n", outContent.toString())
+        val output = runTest(ram)
+        assertEquals(55, output)
     }
 
     @Test
     fun `test program input == 8 address mode`() {
         val ram = mutableListOf(3,9,8,9,10,9,4,9,99,-1,8)
-        runTest(ram, mutableListOf(8))
-        assertEquals("1\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(8))
+        assertEquals(1, output)
     }
 
     @Test
     fun `test program input != 8 address mode`() {
         val ram = mutableListOf(3,9,8,9,10,9,4,9,99,-1,8)
-        runTest(ram, mutableListOf(5))
-        assertEquals("0\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(5))
+        assertEquals(0, output)
     }
 
     @Test
     fun `test program input less than 8 address mode`() {
         val ram = mutableListOf(3,9,7,9,10,9,4,9,99,-1,8)
-        runTest(ram, mutableListOf(6))
-        assertEquals("1\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(6))
+        assertEquals(1, output)
     }
 
     @Test
     fun `test program input greater than or equal 8 address mode`() {
         val ram = mutableListOf(3,9,7,9,10,9,4,9,99,-1,8)
-        runTest(ram, mutableListOf(8))
-        assertEquals("0\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(8))
+        assertEquals(0, output)
     }
 
     @Test
     fun `test program input equal to 8 immediate mode`() {
         val ram = mutableListOf(3,3,1108,-1,8,3,4,3,99)
-        runTest(ram, mutableListOf(8))
-        assertEquals("1\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(8))
+        assertEquals(1, output)
     }
 
     @Test
     fun `test program input not equal to 8 immediate mode`() {
         val ram = mutableListOf(3,3,1108,-1,8,3,4,3,99)
-        runTest(ram, mutableListOf(9))
-        assertEquals("0\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(9))
+        assertEquals(0, output)
     }
 
     @Test
     fun `test input less than 8 immediate mode`() {
         val ram = mutableListOf(3,3,1107,-1,8,3,4,3,99)
-        runTest(ram, mutableListOf(5))
-        assertEquals("1\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(5))
+        assertEquals(1, output)
     }
 
     @Test
     fun `test input not less than 8 immediate mode`() {
         val ram = mutableListOf(3,3,1107,-1,8,3,4,3,99)
-        runTest(ram, mutableListOf(8))
-        assertEquals("0\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(8))
+        assertEquals(0, output)
     }
 
     @Test
     fun `jump test 0, output 1 - address mode`() {
         val ram = mutableListOf(3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9)
-        runTest(ram, mutableListOf(20))
-        assertEquals("1\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(20))
+        assertEquals(1, output)
     }
 
     @Test
     fun `jump test 0, output 0 - address mode`() {
         val ram = mutableListOf(3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9)
-        runTest(ram, mutableListOf(0))
-        assertEquals("0\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(0))
+        assertEquals(0, output)
     }
 
     @Test
     fun `jump test 1, output 1 - immediate mode`() {
         val ram = mutableListOf(3,3,1105,-1,9,1101,0,0,12,4,12,99,1)
-        runTest(ram, mutableListOf(20))
-        assertEquals("1\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(20))
+        assertEquals(1, output)
     }
 
     @Test
     fun `jump test 1, output 0 - immediate mode`() {
         val ram = mutableListOf(3,3,1105,-1,9,1101,0,0,12,4,12,99,1)
-        runTest(ram, mutableListOf(0))
-        assertEquals("0\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(0))
+        assertEquals(0, output)
     }
 
     @Test
@@ -189,8 +171,8 @@ class IntComputerTest {
         val ram = mutableListOf(3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
             1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
             999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99)
-        runTest(ram, mutableListOf(-1))
-        assertEquals("999\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(-1))
+        assertEquals(999, output)
     }
 
     @Test
@@ -198,8 +180,8 @@ class IntComputerTest {
         val ram = mutableListOf(3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
             1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
             999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99)
-        runTest(ram, mutableListOf(8))
-        assertEquals("1000\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(8))
+        assertEquals(1000, output)
     }
 
     @Test
@@ -207,13 +189,23 @@ class IntComputerTest {
         val ram = mutableListOf(3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,
             1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,
             999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99)
-        runTest(ram, mutableListOf(200))
-        assertEquals("1001\n", outContent.toString())
+        val output = runTest(ram, mutableListOf(200))
+        assertEquals(1001, output)
     }
 
-    private fun runTest(ram: MutableList<Int>, input: MutableList<Int> = mutableListOf(1)) {
-        val computer = IntComputer(ram, input)
-        computer.run()
+    private fun runTest(ram: MutableList<Int>, input: MutableList<Int> = mutableListOf(1)): Int? {
+        val computer = IntComputer(ram)
+        var rc: ReturnCode? = null
+        var run = true
+        while (run) {
+            when (rc) {
+                null -> rc = computer.run()
+                is RequestInput -> rc = computer.runWithInput(input.removeAt(0))
+                is Output -> return (rc as Output).value
+                else -> run = false
+            }
+        }
+        return null
     }
 }
 

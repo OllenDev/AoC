@@ -1,41 +1,58 @@
 package ollendev.aoc
 
+import java.lang.IllegalStateException
+
 fun main() {
-    val generator = PermutationGenerator(mutableListOf(0,1,2,3,4))
+    val generator = PermutationGenerator(mutableListOf(5,6,7,8,9))
     val permutations = generator.generate()
     val solutions = mutableMapOf<Int, List<Int>>()
+
     for (permutation in permutations) {
         println("Input = $permutation")
-
-        val ramA = initRam("AmplifierController.txt")
-        val ampA = IntComputer(ramA, mutableListOf(permutation[0], 0))
-        ampA.run()
-        println("A output: ${ampA.input.last()}")
-
-        val ramB = initRam("AmplifierController.txt")
-        val ampB = IntComputer(ramB, mutableListOf(permutation[1], ampA.input.last()))
-        ampB.run()
-        println("B output: ${ampB.input.last()}")
-
-        val ramC = initRam("AmplifierController.txt")
-        val ampC = IntComputer(ramC, mutableListOf(permutation[2], ampB.input.last()))
-        ampC.run()
-        println("C output: ${ampC.input.last()}")
-
-        val ramD = initRam("AmplifierController.txt")
-        val ampD = IntComputer(ramD, mutableListOf(permutation[3], ampC.input.last()))
-        ampD.run()
-        println("D output: ${ampD.input.last()}")
-
-        val ramE = initRam("AmplifierController.txt")
-        val ampE = IntComputer(ramE, mutableListOf(permutation[4], ampD.input.last()))
-        ampE.run()
-        println("E output: ${ampE.input.last()}")
-
-        solutions[ampE.input.last()] = permutation
+        val computers = initComputers()
+        var input = 0
+        var returnCode: ReturnCode? = null
+        var computerIndex = 0
+        var computer = computers[computerIndex]
+        var modeSetCount = 0
+        while (returnCode != Halt) {
+            when(returnCode) {
+                null -> returnCode = computer.run()
+                is Output -> {
+                    input = returnCode.value
+                    computerIndex = if (computerIndex < (computers.size - 1)) { computerIndex + 1 } else { 0 }
+                    computer = computers[computerIndex]
+                    returnCode = computer.run()
+                }
+                is RequestInput -> {
+                    if (modeSetCount < computers.size) {
+                        computer.runWithInput(permutation[computerIndex])
+                        modeSetCount += 1
+                    }
+                    returnCode = computer.runWithInput(input)
+                }
+                else -> throw IllegalStateException("There was an error $returnCode")
+            }
+        }
+        solutions[input] = permutation
     }
     val bestSolution = solutions.maxBy { it.key }
     println("Max value ${bestSolution?.key} for inputs ${bestSolution?.value}")
+}
+
+private fun initComputers(): MutableList<IntComputer> {
+    val ramA = initRam("AmplifierController.txt")
+    val ramB = initRam("AmplifierController.txt")
+    val ramC = initRam("AmplifierController.txt")
+    val ramD = initRam("AmplifierController.txt")
+    val ramE = initRam("AmplifierController.txt")
+    return mutableListOf<IntComputer>(
+        IntComputer(ramA),
+        IntComputer(ramB),
+        IntComputer(ramC),
+        IntComputer(ramD),
+        IntComputer(ramE)
+    )
 }
 
 class PermutationGenerator(private val list: MutableList<Int>) {

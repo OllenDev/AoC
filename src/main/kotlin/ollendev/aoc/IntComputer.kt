@@ -1,7 +1,5 @@
 package ollendev.aoc
 
-import java.lang.Exception
-
 fun main() {
     println("Fix Computer\n-------------")
     fixComputer()
@@ -16,15 +14,35 @@ fun main() {
 // Day 5 Part 1 -  Thermal Environment Supervision Terminal (TEST)
 fun runTESTDiagnostic() {
     val ram = initRam("TESTDiagnosticProgram.txt")
-    val computer = IntComputer(ram, mutableListOf(1))
-    computer.run()
+    val computer = IntComputer(ram)
+    var code = computer.run()
+    var input = 1
+    while (code != Halt) {
+        if (code == RequestInput) {
+            code = computer.runWithInput(input)
+        } else if (code is Output) {
+            input = code.value
+            code = computer.run()
+        }
+    }
+    println("Diagnostic code: $input")
 }
 
 // Day 5 Part 2 -  Thermal Radiator
 fun runRadiatorTestDiagnostic() {
     val ram = initRam("TESTDiagnosticProgram.txt")
-    val computer = IntComputer(ram, mutableListOf(5))
-    computer.run()
+    val computer = IntComputer(ram)
+    var code = computer.run()
+    var input = 5
+    while (code != Halt) {
+        if (code == RequestInput) {
+            code = computer.runWithInput(input)
+        } else if (code is Output) {
+            input = code.value
+            code = computer.run()
+        }
+    }
+    println("Diagnostic code: $input")
 }
 
 // Day 1 Part 1 "1202 error"
@@ -59,7 +77,7 @@ fun day1Driver(noun: Int, verb: Int): Int {
     // replace position 2 with the value 2
     ram[2] = verb
 
-    val computer = IntComputer(ram, mutableListOf(1))
+    val computer = IntComputer(ram)
     computer.run()
 
     return ram[0]
@@ -77,26 +95,38 @@ fun initRam(programFile: String): MutableList<Int> {
     return ram
 }
 
+sealed class ReturnCode
+data class Error(val message: String) : ReturnCode()
+object RequestInput : ReturnCode()
+data class Output(val value: Int) : ReturnCode()
+object Halt : ReturnCode()
+
 class IntComputer(
     private val ram: MutableList<Int>,
-    val input: MutableList<Int>
+    private val debug: Boolean = false
 ) {
+
+    val output = mutableListOf<Int>()
 
     private var programPointer = 0
 
-    fun run() {
-        if (ram.size < 4) return
+    fun runWithInput(input: Int): ReturnCode {
+        val saveAddress = ram[programPointer + 1]
+        ram[saveAddress] = input
+        programPointer += 2
+        return run()
+    }
 
+    fun run(): ReturnCode {
         var instruction = getInstruction(programPointer)
 
         runloop@ while (instruction.opCode != OpCode.Halt) {
-            println("$instruction pp:$programPointer")
             var jumpPointer: Int? = null
             when (instruction.opCode) {
                 OpCode.Add -> add(instruction)
                 OpCode.Multiply -> multiply(instruction)
-                OpCode.Input -> input()
-                OpCode.Output -> output(instruction)
+                OpCode.Input -> return input()
+                OpCode.Output -> return output(instruction)
                 OpCode.JumpIfTrue -> jumpPointer = jumpIfTrue(instruction)
                 OpCode.JumpIfFalse -> jumpPointer = jumpIfFalse(instruction)
                 OpCode.LessThan -> lessThan(instruction)
@@ -104,12 +134,15 @@ class IntComputer(
                 OpCode.Halt -> break@runloop
             }
             programPointer = jumpPointer ?: programPointer + instruction.opCode.size
-            try {
-                instruction = getInstruction(programPointer)
-            } catch (e: Exception) {
-                println("Error Parsing Instruction for ram[$programPointer]: ${ram[programPointer]}")
-                break
-            }
+            instruction = getInstruction(programPointer)
+        }
+
+        return Halt
+    }
+
+    private fun log(message: String) {
+        if (debug) {
+            println(message)
         }
     }
 
@@ -118,6 +151,7 @@ class IntComputer(
         val right = readParamValue(instruction, 1)
         val saveAddress = ram[programPointer + 3]
         ram[saveAddress] = left + right
+        log("Add ram[${programPointer + 3}] = $left + $right")
     }
 
     private fun multiply(instruction: Instruction) {
@@ -125,26 +159,29 @@ class IntComputer(
         val right = readParamValue(instruction, 1)
         val saveAddress = ram[programPointer + 3]
         ram[saveAddress] = left * right
+        log("Multiply ram[${programPointer + 3}] = $left * $right")
     }
 
-    private fun input() {
-        val saveAddress = ram[programPointer + 1]
-        ram[saveAddress] = input.first()
-        input.removeAt(0)
+    private fun input(): RequestInput {
+        log("Request Input")
+        return RequestInput
     }
 
-    private fun output(instruction: Instruction) {
+    private fun output(instruction: Instruction): Output {
         val value = readParamValue(instruction, 0)
-        input.add(value)
-        println("$value")
+        log("Output $value")
+        programPointer += 2
+        return Output(value)
     }
 
     // if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter.
     // Otherwise, it does nothing.
     private fun jumpIfTrue(instruction: Instruction): Int? {
         val value = readParamValue(instruction, 0)
+        val address = readParamValue(instruction, 1)
+        log("jumpIfTrue $value != 0 address = $address")
         if (value != 0) {
-            return readParamValue(instruction, 1)
+            return address
         }
         return null
     }
@@ -153,8 +190,10 @@ class IntComputer(
     // Otherwise, it does nothing
     private fun jumpIfFalse(instruction: Instruction): Int? {
         val value = readParamValue(instruction, 0)
+        val address = readParamValue(instruction, 1)
+        log("jumpIfFalse $value != 0 address = $address")
         if (value == 0) {
-            return readParamValue(instruction, 1)
+            return address
         }
         return null
     }
@@ -165,6 +204,7 @@ class IntComputer(
         val saveAddress = ram[programPointer + 3]
         val left = readParamValue(instruction, 0)
         val right = readParamValue(instruction, 1)
+        log("lessThan ram[$saveAddress] = $left < $right ")
         ram[saveAddress] = if (left < right) { 1 } else { 0 }
     }
 
@@ -174,6 +214,7 @@ class IntComputer(
         val saveAddress = ram[programPointer + 3]
         val left = readParamValue(instruction, 0)
         val right = readParamValue(instruction, 1)
+        log("lessThan ram[$saveAddress] = $left == $right ")
         ram[saveAddress] = if (left == right) { 1 } else { 0 }
     }
 
